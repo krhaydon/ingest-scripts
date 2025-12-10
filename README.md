@@ -1,1 +1,1 @@
-test
+This is a library of scripts that I use to quality control assets digitized by a vendor. All of these scripts were written with the assistance of AI, primarily ChatGPT, but tested extensively before adoption. 
