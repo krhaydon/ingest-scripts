@@ -30,5 +30,4 @@ See the individual script directories for details, dependencies, and instruction
 
 ## Contributions
 
-While this repository primarily reflects internal workflows, suggestions and improvements are welcome.  
-Please open an issue or submit a pull request if you have feedback.
+Suggestions and improvements are welcome. Please open an issue or submit a pull request if you have feedback.
