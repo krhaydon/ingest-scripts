@@ -1,7 +1,0 @@
-item,action,success,result
-/Users/archive/Desktop/test/B006.F003/aa_legacy_logs,legacy_move,True,/Users/archive/Desktop/test/B006.F003/data/submissionDocumentation/aa_legacy_logs
-/Users/archive/Desktop/test/B006.F003/.DS_Store,move_to_objects,True,/Users/archive/Desktop/test/B006.F003/data/objects/.DS_Store
-/Users/archive/Desktop/test/B006.F003/B006.F003.xml,move_to_objects,True,/Users/archive/Desktop/test/B006.F003/data/objects/B006.F003.xml
-/Users/archive/Desktop/test/B006.F003/B006.F003_AssetBack.JPG,move_to_objects,True,/Users/archive/Desktop/test/B006.F003/data/objects/B006.F003_AssetBack.JPG
-/Users/archive/Desktop/test/B006.F003/B006.F003_AssetFront.JPG,move_to_objects,True,/Users/archive/Desktop/test/B006.F003/data/objects/B006.F003_AssetFront.JPG
-/Users/archive/Desktop/test/B006.F003/B006.F003_AssetSide.JPG,move_to_objects,True,/Users/archive/Desktop/test/B006.F003/data/objects/B006.F003_AssetSide.JPG
