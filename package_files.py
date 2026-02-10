@@ -4,24 +4,60 @@ import zipfile
 import subprocess
 import shutil
 
+
+
+import os
+import re
+import shlex
+
 def normalize_path(p: str) -> str:
     """
-    Normalize a user-supplied path:
+    Normalize a user-supplied path (macOS-friendly):
     - Strip surrounding whitespace and quotes
-    - Convert drag-and-drop escaped spaces (e.g., '\\ ') to real spaces
+    - If the path looks shell-escaped (drag-and-drop), unescape backslashes
+      e.g. '\\ ' -> ' ', '\\(' -> '(', '\\#' -> '#'
     - Expand ~ and make absolute
     """
     if not p:
         return p
 
-    # Strip whitespace and surrounding quotes
-    p = p.strip().strip('"').strip("'")
+    p = p.strip()
 
-    # Handle escaped spaces from drag-and-drop (e.g., on macOS)
-    p = p.replace("\\ ", " ")
+    # If the user pasted something quoted, remove only outer quotes
+    if (p.startswith('"') and p.endswith('"')) or (p.startswith("'") and p.endswith("'")):
+        p = p[1:-1]
 
-    # Expand ~ and make absolute
-    return os.path.abspath(os.path.expanduser(p))
+    # First try as-is (covers normal pasted paths with spaces)
+    candidate = os.path.abspath(os.path.expanduser(p))
+    if os.path.exists(candidate):
+        return candidate
+
+    # If it looks like a shell-escaped path, unescape backslashes.
+    # macOS drag-drop tends to escape special chars with backslashes.
+    unescaped = re.sub(r'\\(.)', r'\1', p)
+
+    # Also handle cases where the user pasted a shell-style token/quoted path
+    # (shlex will interpret backslash escapes + quotes).
+    try:
+        parts = shlex.split(p)
+        if len(parts) == 1:
+            shlex_one = parts[0]
+        else:
+            shlex_one = None
+    except ValueError:
+        shlex_one = None
+
+    # Prefer whichever resolves to an existing path
+    for q in [unescaped, shlex_one]:
+        if not q:
+            continue
+        candidate = os.path.abspath(os.path.expanduser(q))
+        if os.path.exists(candidate):
+            return candidate
+
+    # Fall back to the best-effort unescaped absolute path
+    return os.path.abspath(os.path.expanduser(unescaped))
+
 
 def zip_directory_into_objects(package_dir: str, objects_dir: str, zip_basename: str) -> str:
     """
